@@ -22,13 +22,21 @@ func init() {
 }
 
 func main() {
+	var filePath string
+	if len(os.Args) > 2 {
+		filePath = os.Args[2]
+	} else {
+		fmt.Println("No filepath is provided")
+		os.Exit(1)
+	}
+
 	if action == "upload" {
-		DemoUploadCSV()
+		DemoUploadCSV(filePath)
 	} else if action == "download" {
-		DemoDownloadCSV()
+		DemoDownloadCSV(filePath)
 	}
 }
-func DemoDownloadCSV() {
+func DemoDownloadCSV(filePath string) {
 	apiURL := "http://localhost:8080/api/expenses/download"
 	token := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiY0BnbWFpbC5jb20iLCJleHAiOjE3MzM2NTg3OTcsInJvbGUiOiJ1c2VyIiwidXNlcl9pZCI6IjY3NGViZDZjODgzNDU4MTJkOThiNmEwYiJ9.UDpz35nx58XflMzie29glqy6J6m-gQWyULIDXz4OVZI"
 
@@ -54,7 +62,6 @@ func DemoDownloadCSV() {
 	}
 
 	// Save the file to disk
-	filePath := "./expenses.csv"
 	f, err := os.Create(filePath)
 	if err != nil {
 		fmt.Println(err)
@@ -71,9 +78,8 @@ func DemoDownloadCSV() {
 	fmt.Println("CSV file saved to", filePath)
 }
 
-func DemoUploadCSV() {
+func DemoUploadCSV(filePath string) {
 	apiURL := "http://localhost:8080/api/expenses/upload"
-	filePath := "./Payment2021.csv"
 	token := "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFiY0BnbWFpbC5jb20iLCJleHAiOjE3MzM2NTg3OTcsInJvbGUiOiJ1c2VyIiwidXNlcl9pZCI6IjY3NGViZDZjODgzNDU4MTJkOThiNmEwYiJ9.UDpz35nx58XflMzie29glqy6J6m-gQWyULIDXz4OVZI"
 	file, err := os.Open(filePath)
 	if err != nil {
